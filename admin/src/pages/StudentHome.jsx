@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+import React, { useContext } from "react";
 import { useState } from "react";
 import { FaSave } from "react-icons/fa";
 import { IoPersonAddSharp } from "react-icons/io5";
@@ -6,12 +7,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { useEffect } from "react";
+import { authDataContext } from "../context/Authcontext";
 
 const StudentHome = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
   const [student, setStudent] = useState({});
   const [marks, setMarks] = useState({});
+  let { serverUrl } = useContext(authDataContext);
 
   const fetchStudent = async () => {
     try {
@@ -28,7 +31,9 @@ const StudentHome = () => {
     }
   };
   const calculateTotal = (student) => {
-    return student.halfYearly + student.quarterly + student.final;
+    const totalMarks =
+      student.halfYearly * 0.1 + student.quarterly * 0.3 + student.final * 0.7;
+    return totalMarks;
   };
 
   useEffect(() => {

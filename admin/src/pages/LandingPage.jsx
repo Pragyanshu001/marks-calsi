@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { authDataContext } from "../context/Authcontext";
 
 const LandingPage = () => {
+  let { serverUrl } = useContext(authDataContext);
+  const checkHealth = async () => {
+    try {
+      const res = await axios.get(`${serverUrl}/api/v1/health`);
+      console.log(res.data.status);
+      if (res.data.status !== "OK") {
+        alert("Server is down please check");
+      }
+    } catch (err) {
+      console.error("Health check failed:", err.message);
+      alert("Server is down please check");
+    }
+  };
+  useEffect(() => {
+    checkHealth();
+  }, []);
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-linear-to-br from-[#FDB07F] via-[#649AAE] to-[#B79FD2] p-4 font-sans">
       {/* Navigation Bar */}

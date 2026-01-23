@@ -31,7 +31,9 @@ const Home = () => {
     }
   };
   const calculateTotal = (student) => {
-    return student.halfYearly + student.quarterly + student.final;
+    const totalMarks =
+      student.halfYearly * 0.1 + student.quarterly * 0.3 + student.final * 0.7;
+    return totalMarks;
   };
 
   const handleSave = async () => {
@@ -45,7 +47,7 @@ const Home = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       setShowSave(false);
@@ -210,7 +212,7 @@ const Home = () => {
                 <tbody className="divide-y divide-white/20">
                   {students.map((student) => {
                     const studentIndex = marks.findIndex(
-                      (mark) => mark.userId === student.userId
+                      (mark) => mark.userId === student.userId,
                     );
 
                     return (
@@ -246,7 +248,7 @@ const Home = () => {
                               changeMarks(
                                 studentIndex,
                                 "halfYearly",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                           />
@@ -267,7 +269,7 @@ const Home = () => {
                               changeMarks(
                                 studentIndex,
                                 "quarterly",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                           />
