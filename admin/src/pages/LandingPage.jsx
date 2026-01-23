@@ -21,7 +21,7 @@ const LandingPage = () => {
     checkHealth();
   }, []);
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-linear-to-br from-[#FDB07F] via-[#649AAE] to-[#B79FD2] p-4 font-sans">
+    <div className="h-screen w-full flex items-center justify-center bg-linear-to-br from-[#FDB07F] via-[#649AAE] to-[#B79FD2] p-4 font-sans">
       {/* Navigation Bar */}
       <nav className=" absolute top-0 w-full backdrop-blur-3xl bg-white/20 flex items-center justify-between px-8 py-6">
         <div className="h-10 w-10 rounded-full" /> {/* Logo Placeholder */}
