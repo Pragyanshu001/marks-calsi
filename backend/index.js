@@ -20,7 +20,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://marks-calsi-1.onrender.com",
+      "https://marks-calsi.onrender.com",
     ],
   }),
 );
