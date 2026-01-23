@@ -15,7 +15,12 @@ connectToMongoDB(process.env.MONGO_URL)
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://marks-calsi-1.onrender.com"],
+    credentials: true,
+  }),
+);
 
 app.use("/api/v1", routes);
 
