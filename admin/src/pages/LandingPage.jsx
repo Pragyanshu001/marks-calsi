@@ -23,27 +23,9 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-linear-to-br from-[#FDB07F] via-[#649AAE] to-[#B79FD2] p-4 font-sans">
       {/* Navigation Bar */}
-      <nav className="absolute top-0 w-full backdrop-blur-3xl bg-white/20 flex items-center justify-between px-8 py-6">
+      <nav className=" absolute top-0 w-full backdrop-blur-3xl bg-white/20 flex items-center justify-between px-8 py-6">
         <div className="h-10 w-10 rounded-full" /> {/* Logo Placeholder */}
         <div className="flex items-center gap-6">
-          <div className="relative">
-            <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </span>
-          </div>
           <Link to={"/login"}>
             <button className="cursor-pointer px-5 py-2 bg-[#1a1a1a] text-white rounded-lg text-sm font-semibold hover:bg-black">
               Log in

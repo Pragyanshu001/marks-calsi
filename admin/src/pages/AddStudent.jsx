@@ -30,9 +30,8 @@ const AddStudent = () => {
           final: final,
           studentClass: studentClass,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
-      //   sessionStorage.setItem("token", res.data.data.token);
       //   console.log("OTP verification flow");
       navigate("/home");
       return;
@@ -40,6 +39,7 @@ const AddStudent = () => {
       if (error.response.data.message === "Email not Found") {
         alert("Account not found");
       }
+      alert(error.response.data.message);
     }
   };
 
@@ -50,18 +50,10 @@ const AddStudent = () => {
         <div className="flex items-center gap-8">
           <div className="h-10 w-10 rounded-full" /> {/* Logo */}
           <div className="hidden md:flex gap-6 text-sm font-medium text-gray-500">
-            <a href="#" className="text-black font-bold">
-              Home
-            </a>
-            <a href="#" className="hover:text-black">
-              Web designs
-            </a>
-            <a href="#" className="hover:text-black">
-              Mobile designs
-            </a>
-            <a href="#" className="hover:text-black">
-              Illustrations
-            </a>
+            <a className="cursor-pointer text-black font-bold">Home</a>
+            <a className="cursor-pointer hover:text-black">Web designs</a>
+            <a className="cursor-pointer hover:text-black">Mobile designs</a>
+            <a className="cursor-pointer hover:text-black">Illustrations</a>
           </div>
         </div>
 

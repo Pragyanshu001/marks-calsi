@@ -34,7 +34,7 @@ const teacherCheckEmail = async (teacherData) => {
         "https://api.brevo.com/v3/smtp/email",
         {
           sender: {
-            name: "School System",
+            name: "School Portal",
             email: "pragyanshugupta001@gmail.com",
           },
           to: [{ email: teacher.email, name: teacher.name }],
@@ -53,12 +53,12 @@ const teacherCheckEmail = async (teacherData) => {
             "api-key": process.env.BREVO_API_KEY,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
     } catch (emailError) {
       console.error(
         "Brevo Email Error:",
-        emailError.response?.data || emailError.message
+        emailError.response?.data || emailError.message,
       );
       // Optional: Don't throw error here if you want the user to still see "OTP Sent"
       // but usually, we want to know if the email failed.
@@ -79,7 +79,7 @@ const teacherLoginWithPassword = async (teacherData) => {
     if (!teacher) {
       throw new ApiError(
         httpStatus.UNAUTHORIZED,
-        "Login Failed! Incorrect email or password"
+        "Login Failed! Incorrect email or password",
       );
     }
 
@@ -90,7 +90,7 @@ const teacherLoginWithPassword = async (teacherData) => {
     if (!isMatch) {
       throw new ApiError(
         httpStatus.UNAUTHORIZED,
-        "Login Failed! Incorrect email or password"
+        "Login Failed! Incorrect email or password",
       );
     }
     const token = await genToken(teacher.userId, "Teacher", teacher.email);
@@ -133,7 +133,7 @@ const teacherLoginWithOTP = async (teacherData) => {
 
     await User.updateOne(
       { userId: teacher.userId },
-      { password: hashedPassword }
+      { password: hashedPassword },
     );
     await OTP.deleteOne({ Otp: otp });
 

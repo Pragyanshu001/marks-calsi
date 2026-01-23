@@ -37,6 +37,12 @@ const updateMarks = async (marksData) => {
     console.log(marksData);
 
     for (let m of marksData) {
+      if (m.halfYearly > 100 || m.quarterly > 100 || m.final > 100) {
+        throw new ApiError(
+          httpStatus.status.INTERNAL_SERVER_ERROR,
+          "Marks should less than 100",
+        );
+      }
       await Marks.findOneAndUpdate(
         { userId: m.userId },
         {
@@ -45,7 +51,7 @@ const updateMarks = async (marksData) => {
           final: m.final,
           total: m.total,
         },
-        { new: true }
+        { new: true },
       );
     }
 
@@ -65,7 +71,14 @@ const addStudent = async (studentData) => {
     if (checkEmail) {
       throw new ApiError(
         httpStatus.status.BAD_REQUEST,
-        email + " is already taken. Please try with different Email"
+        email + " is already taken. Please try with different Email",
+      );
+    }
+
+    if (halfYearly > 100 || quarterly > 100 || final > 100) {
+      throw new ApiError(
+        httpStatus.status.INTERNAL_SERVER_ERROR,
+        "Marks should less than 100",
       );
     }
 
@@ -124,10 +137,10 @@ const studentCheckEmail = async (studentData) => {
         "https://api.brevo.com/v3/smtp/email",
         {
           sender: {
-            name: "School System",
+            name: "School Portal",
             email: "pragyanshugupta001@gmail.com",
           },
-          to: [{ email: teacher.email, name: teacher.name }],
+          to: [{ email: student.email, name: student.name }],
           subject: "Your Registration OTP",
           htmlContent: `
                 <div style="font-family: sans-serif; padding: 20px; border: 1px solid #ddd;">
@@ -143,12 +156,12 @@ const studentCheckEmail = async (studentData) => {
             "api-key": process.env.BREVO_API_KEY,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
     } catch (emailError) {
       console.error(
         "Brevo Email Error:",
-        emailError.response?.data || emailError.message
+        emailError.response?.data || emailError.message,
       );
       // Optional: Don't throw error here if you want the user to still see "OTP Sent"
       // but usually, we want to know if the email failed.
@@ -189,7 +202,7 @@ const studentLoginWithOtp = async (studentData) => {
 
     await User.updateOne(
       { userId: student.userId },
-      { password: hashedPassword }
+      { password: hashedPassword },
     );
     await OTP.deleteOne({ Otp: otp });
 

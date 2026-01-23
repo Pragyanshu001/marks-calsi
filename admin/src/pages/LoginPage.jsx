@@ -48,7 +48,7 @@ const LoginPage = () => {
         const res = await axios.post(
           `${serverUrl}/api/v1/user/teacher-check-email`,
           { email: teacherEmail },
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         if (res.data.data.status === "PASSWORD_EXISTS") {
@@ -67,7 +67,7 @@ const LoginPage = () => {
         const res = await axios.post(
           `${serverUrl}/api/v1/user/teacher-loginWithPassword`,
           { email: teacherEmail, password: teacherPassword },
-          { withCredentials: true }
+          { withCredentials: true },
         );
         sessionStorage.setItem("token", res.data.data.token);
         navigate("/home");
@@ -80,7 +80,7 @@ const LoginPage = () => {
         const res = await axios.post(
           `${serverUrl}/api/v1/user/teacher-login-with-otp`,
           { email: teacherEmail, otp: otp, password: teacherNewPassword },
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         sessionStorage.setItem("token", res.data.data.token);
@@ -103,7 +103,7 @@ const LoginPage = () => {
         const res = await axios.post(
           `${serverUrl}/api/v1/user/student-check-email`,
           { email: studentEmail },
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         if (res.data.data.status === "PASSWORD_EXISTS") {
@@ -122,7 +122,7 @@ const LoginPage = () => {
         const res = await axios.post(
           `${serverUrl}/api/v1/user/student-loginWithPassword`,
           { email: studentEmail, password: studentPassword },
-          { withCredentials: true }
+          { withCredentials: true },
         );
         sessionStorage.setItem("token", res.data.data.token);
         navigate("/home");
@@ -135,7 +135,7 @@ const LoginPage = () => {
         const res = await axios.post(
           ` ${serverUrl}/api/v1/user/student-login-with-otp`,
           { email: studentEmail, otp: otp, password: studentNewPassword },
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         sessionStorage.setItem("token", res.data.data.token);
@@ -157,41 +157,14 @@ const LoginPage = () => {
         <div className="flex items-center gap-8">
           <div className="h-10 w-10 rounded-full" /> {/* Logo */}
           <div className="hidden md:flex gap-6 text-sm font-medium text-gray-500">
-            <a href="#" className="text-black font-bold">
-              Home
-            </a>
-            <a href="#" className="hover:text-black">
-              Web designs
-            </a>
-            <a href="#" className="hover:text-black">
-              Mobile designs
-            </a>
-            <a href="#" className="hover:text-black">
-              Illustrations
-            </a>
+            <a className="cursor-pointer text-black font-bold">Home</a>
+            <a className="cursor-pointer hover:text-black">Web designs</a>
+            <a className="cursor-pointer hover:text-black">Mobile designs</a>
+            <a className="cursor-pointer hover:text-black">Illustrations</a>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="relative hidden sm:block">
-            <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3.5 w-3.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </span>
-          </div>
-
           <button
             onClick={handleLogout}
             className="cursor-pointer px-5 py-2 bg-[#1a1a1a] text-white rounded-lg text-sm font-semibold hover:bg-black"
@@ -321,27 +294,6 @@ const LoginPage = () => {
                       </>
                     )}
 
-                    {/* Captcha Placeholder */}
-                    {/* <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-50/50">
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="checkbox"
-                          className="h-5 w-5 text-green-500 rounded focus:ring-0"
-                        />
-                        <span className="text-sm font-medium text-gray-700">
-                          I'm not a robot
-                        </span>
-                      </div>
-                      <div className="text-center">
-                        <img
-                          src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
-                          alt="reCAPTCHA"
-                          className="h-6 mx-auto opacity-70"
-                        />
-                        <p className="text-[8px] text-gray-400">reCAPTCHA</p>
-                      </div>
-                    </div> */}
-
                     {/* Submit Button */}
                     <button
                       type="submit"
@@ -452,27 +404,6 @@ const LoginPage = () => {
                       </>
                     )}
 
-                    {/* Captcha Placeholder */}
-                    {/* <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-50/50">
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="checkbox"
-                          className="h-5 w-5 text-green-500 rounded focus:ring-0"
-                        />
-                        <span className="text-sm font-medium text-gray-700">
-                          I'm not a robot
-                        </span>
-                      </div>
-                      <div className="text-center">
-                        <img
-                          src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
-                          alt="reCAPTCHA"
-                          className="h-6 mx-auto opacity-70"
-                        />
-                        <p className="text-[8px] text-gray-400">reCAPTCHA</p>
-                      </div>
-                    </div> */}
-
                     {/* Submit Button */}
                     <button
                       type="submit"
@@ -480,16 +411,6 @@ const LoginPage = () => {
                     >
                       Log in
                     </button>
-
-                    <p className="text-center text-sm text-gray-600">
-                      Don't have an account?{" "}
-                      <a
-                        href="/sign-up"
-                        className=" hover:text-blue-600 font-bold underline"
-                      >
-                        Sign up
-                      </a>
-                    </p>
                   </form>
                 </div>
               </TabPanel>
