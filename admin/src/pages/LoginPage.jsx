@@ -421,7 +421,7 @@ const LoginPage = () => {
     ${
       loading
         ? "bg-gray-500 cursor-not-allowed"
-        : "bg-[#1a1a1a] hover:bg-black cursor-pointer"
+        : "bg-[#534e4e] hover:bg-gray-400 cursor-pointer"
     }
   `}
                     >
