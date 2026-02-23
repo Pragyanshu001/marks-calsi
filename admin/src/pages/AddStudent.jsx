@@ -12,12 +12,14 @@ const AddStudent = () => {
   const [quarterly, setQuarterly] = useState("");
   const [final, setFinal] = useState("");
   const [studentClass, setStudentClass] = useState("");
+  const [loading, setLoading] = useState(false);
 
   let { serverUrl } = useContext(authDataContext);
   let navigate = useNavigate();
 
   const handleAddStudent = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       await axios.post(
@@ -40,6 +42,8 @@ const AddStudent = () => {
         alert("Account not found");
       }
       alert(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -212,9 +216,12 @@ const AddStudent = () => {
               <button
                 onClick={handleAddStudent}
                 type="submit"
-                className="flex-1 py-4 bg-gray-800 cursor-pointer text-white rounded-full font-bold hover:bg-gray-900 transition-all shadow-lg active:scale-95"
+                disabled={loading}
+                className={`flex-1 py-4 rounded-full font-bold transition-all shadow-lg 
+    ${loading ? "bg-gray-500 cursor-not-allowed" : "bg-gray-800 hover:bg-gray-900"}
+  `}
               >
-                Save Student
+                {loading ? "Saving..." : "Save Student"}
               </button>
             </div>
           </form>
