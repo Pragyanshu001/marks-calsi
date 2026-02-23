@@ -20,6 +20,7 @@ const LoginPage = () => {
 
   const [showPasswordField, setShowPasswordField] = useState(false);
   const [showOtpField, setShowOtpField] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [studentEmail, setStudentEmail] = useState("");
   const [studentPassword, setStudentPassword] = useState("");
@@ -41,6 +42,7 @@ const LoginPage = () => {
 
   const handleTeacherLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       // STEP 1: ONLY EMAIL CHECK
@@ -92,10 +94,13 @@ const LoginPage = () => {
       if (error.response.data.message === "Email not Found") {
         alert("Account not found");
       }
+    } finally {
+      setLoading(false);
     }
   };
   const handleStudentLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       // STEP 1: ONLY EMAIL CHECK
@@ -147,6 +152,8 @@ const LoginPage = () => {
       if (error.response.data.message === "Email not Found") {
         alert("Account not found");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -409,9 +416,23 @@ const LoginPage = () => {
                     {/* Submit Button */}
                     <button
                       type="submit"
-                      className="w-full py-4 bg-[#1a1a1a] text-white rounded-full cursor-pointer font-bold text-lg hover:bg-[#000000] transition-colors"
+                      disabled={loading}
+                      className={`w-full py-4 rounded-full font-bold text-lg transition-colors
+    ${
+      loading
+        ? "bg-gray-500 cursor-not-allowed"
+        : "bg-[#1a1a1a] hover:bg-black cursor-pointer"
+    }
+  `}
                     >
-                      Log in
+                      {loading ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          Processing...
+                        </span>
+                      ) : (
+                        "Log in"
+                      )}
                     </button>
                   </form>
                 </div>
