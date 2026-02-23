@@ -417,13 +417,7 @@ const LoginPage = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className={`w-full py-4 rounded-full font-bold text-lg transition-colors
-    ${
-      loading
-        ? "bg-gray-500 cursor-not-allowed"
-        : "bg-[#534e4e] hover:bg-gray-400 cursor-pointer"
-    }
-  `}
+                      className="w-full py-4 bg-[#1a1a1a] text-white rounded-full cursor-pointer font-bold text-lg hover:bg-[#000000] transition-colors"
                     >
                       {loading ? (
                         <span className="flex items-center justify-center gap-2">
