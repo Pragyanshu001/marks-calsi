@@ -15,9 +15,12 @@ const Home = () => {
   const [students, setStudents] = useState([]);
   const [marks, setMarks] = useState([]);
   const token = sessionStorage.getItem("token");
+  const [loading, setLoading] = useState(true);
+
   let { serverUrl } = useContext(authDataContext);
 
   const fetchStudents = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(`${serverUrl}/api/v1/user/student/list`, {
         headers: {
@@ -28,8 +31,11 @@ const Home = () => {
       setMarks(res.data.data.marks);
     } catch (error) {
       console.error("Failed to fetch students", error);
+    } finally {
+      setLoading(false);
     }
   };
+
   const calculateTotal = (student) => {
     const totalMarks =
       student.halfYearly * 0.1 + student.quarterly * 0.3 + student.final * 0.7;
@@ -144,109 +150,120 @@ const Home = () => {
               )}
             </div>
 
-            <div className=" h-[59vh] overflow-auto">
-              <table className="w-full text-left whitespace-nowrap">
-                <thead>
-                  <tr className="bg-gray-50/50 sticky top-0 z-10 backdrop-blur-xl text-gray-600 uppercase text-xs font-semibold tracking-wider border-b border-white/20">
-                    <th className="px-6 py-4">Name</th>
-                    <th className="px-6 py-4">Class</th>
-                    <th className="px-6 py-4 text-center">Half Yearly</th>
-                    <th className="px-6 py-4 text-center">Quarterly</th>
-                    <th className="px-6 py-4 text-center">Final Exam</th>
-                    <th className="px-6 py-4 text-center font-bold text-gray-700">
-                      Total
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/20">
-                  {students.map((student) => {
-                    const studentIndex = marks.findIndex(
-                      (mark) => mark.userId === student.userId,
-                    );
+            <div className="h-[59vh] overflow-auto flex items-center justify-center">
+              {loading ? (
+                <div className="flex flex-col items-center gap-3 text-gray-700">
+                  <span className="h-10 w-10 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"></span>
+                  <p className="text-sm font-medium">Loading students...</p>
+                </div>
+              ) : (
+                <table className="w-full text-left whitespace-nowrap">
+                  <thead>
+                    <tr className="bg-gray-50/50 sticky top-0 z-10 backdrop-blur-xl text-gray-600 uppercase text-xs font-semibold tracking-wider border-b border-white/20">
+                      <th className="px-6 py-4">Name</th>
+                      <th className="px-6 py-4">Class</th>
+                      <th className="px-6 py-4 text-center">Half Yearly</th>
+                      <th className="px-6 py-4 text-center">Quarterly</th>
+                      <th className="px-6 py-4 text-center">Final Exam</th>
+                      <th className="px-6 py-4 text-center font-bold text-gray-700">
+                        Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/20">
+                    {students.map((student) => {
+                      const studentIndex = marks.findIndex(
+                        (mark) => mark.userId === student.userId,
+                      );
 
-                    return (
-                      <tr
-                        key={student.userId}
-                        className="hover:bg-white/10 transition-colors even:bg-gray-50/20"
-                      >
-                        <td className="px-6 py-4 text-sm font-medium text-gray-800">
-                          {student.name}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-600">
-                          {marks[studentIndex].studentClass}
-                        </td>
-                        <td
-                          className={`px-6 py-4 text-sm text-center ${
-                            !showSave ? "text-gray-600" : "text-black"
-                          }`}
+                      return (
+                        <tr
+                          key={student.userId}
+                          className="hover:bg-white/10 transition-colors even:bg-gray-50/20"
                         >
-                          <input
-                            className={` text-center ${
-                              !showSave ? "" : "border-dashed border"
+                          <td className="px-6 py-4 text-sm font-medium text-gray-800">
+                            {student.name}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-600">
+                            {marks[studentIndex].studentClass}
+                          </td>
+                          <td
+                            className={`px-6 py-4 text-sm text-center ${
+                              !showSave ? "text-gray-600" : "text-black"
                             }`}
-                            // type="text"
-                            // inputMode="numeric"
-                            // pattern="[0-9]*"
-                            type="number"
-                            min={0}
-                            max={100}
-                            disabled={!showSave}
-                            value={marks[studentIndex].halfYearly}
-                            onChange={(e) =>
-                              changeMarks(
-                                studentIndex,
-                                "halfYearly",
-                                e.target.value,
-                              )
-                            }
-                          />
-                        </td>
-                        <td
-                          className={`px-6 py-4 text-sm text-center ${
-                            !showSave ? "text-gray-600" : "text-black"
-                          }`}
-                        >
-                          <input
-                            className={` text-center ${
-                              !showSave ? "" : "border-dashed border"
+                          >
+                            <input
+                              className={` text-center ${
+                                !showSave ? "" : "border-dashed border"
+                              }`}
+                              // type="text"
+                              // inputMode="numeric"
+                              // pattern="[0-9]*"
+                              type="number"
+                              min={0}
+                              max={100}
+                              disabled={!showSave}
+                              value={marks[studentIndex].halfYearly}
+                              onChange={(e) =>
+                                changeMarks(
+                                  studentIndex,
+                                  "halfYearly",
+                                  e.target.value,
+                                )
+                              }
+                            />
+                          </td>
+                          <td
+                            className={`px-6 py-4 text-sm text-center ${
+                              !showSave ? "text-gray-600" : "text-black"
                             }`}
-                            type="number"
-                            disabled={!showSave}
-                            value={marks[studentIndex].quarterly}
-                            onChange={(e) =>
-                              changeMarks(
-                                studentIndex,
-                                "quarterly",
-                                e.target.value,
-                              )
-                            }
-                          />
-                        </td>
-                        <td
-                          className={`px-6 py-4 text-sm text-center ${
-                            !showSave ? "text-gray-600" : "text-black"
-                          }`}
-                        >
-                          <input
-                            className={` text-center ${
-                              !showSave ? "" : "border-dashed border"
+                          >
+                            <input
+                              className={` text-center ${
+                                !showSave ? "" : "border-dashed border"
+                              }`}
+                              type="number"
+                              disabled={!showSave}
+                              value={marks[studentIndex].quarterly}
+                              onChange={(e) =>
+                                changeMarks(
+                                  studentIndex,
+                                  "quarterly",
+                                  e.target.value,
+                                )
+                              }
+                            />
+                          </td>
+                          <td
+                            className={`px-6 py-4 text-sm text-center ${
+                              !showSave ? "text-gray-600" : "text-black"
                             }`}
-                            type="number"
-                            disabled={!showSave}
-                            defaultValue={marks[studentIndex].final}
-                            onChange={(e) =>
-                              changeMarks(studentIndex, "final", e.target.value)
-                            }
-                          />
-                        </td>
-                        <td className="px-6 py-4 text-sm text-center font-bold text-blue-600">
-                          {calculateTotal(marks[studentIndex])}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          >
+                            <input
+                              className={` text-center ${
+                                !showSave ? "" : "border-dashed border"
+                              }`}
+                              type="number"
+                              disabled={!showSave}
+                              defaultValue={marks[studentIndex].final}
+                              onChange={(e) =>
+                                changeMarks(
+                                  studentIndex,
+                                  "final",
+                                  e.target.value,
+                                )
+                              }
+                            />
+                          </td>
+                          <td className="px-6 py-4 text-sm text-center font-bold text-blue-600">
+                            {calculateTotal(marks[studentIndex])}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>
